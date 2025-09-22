@@ -20,7 +20,7 @@ def get_fastapi_app() -> FastAPI:
     container = make_async_container(AppProvider(), context={Config: config})
     app = FastAPI(title="Quotes Scraper API")
     setup_dishka(container, app)
-    app.include_router(quote.router, prefix="/api")
+    app.include_router(quote.router)
     return app
 
 
