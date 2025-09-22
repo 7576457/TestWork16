@@ -1,0 +1,45 @@
+name: quotes-to-scrape
+services:
+  app:
+    build: .
+    container_name: app
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - .env
+    ports:
+      - "8000:8000"
+
+  celery:
+    build: .
+    container_name: celery
+    command: python -m app.infrastructure.celery.worker
+    environment:
+      - .env
+    depends_on:
+      - mongo
+      - redis
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    restart: always
+    command: mongod --quiet --logpath /dev/null
+    environment:
+      - .env
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongo_data:
+  redis_data:

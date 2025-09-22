@@ -1,0 +1,9 @@
+fastapi
+pymongo
+celery
+python-dotenv
+uvicorn
+redis
+beautifulsoup4
+httpx
+dishka
